@@ -38,12 +38,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    String places[];
+    String place;
     Map m;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        /*setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -53,61 +53,17 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
-        places = new String[10];
-        places[0]="Main Building";
-        places[1]="Student Activity Center";
-        m= new HashMap();
-        m.put("Main Building","mainbuilding");
-        m.put("Student Activity Center","sac");
-        ListView listView1 = (ListView) findViewById(R.id.listView1);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,places);
-        listView1.setAdapter(adapter);
-        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
+        });*/
+        place="Main Building";
+        place = place.toLowerCase();
+        String placearr[] = place.split(" ");
+        place="";
+        for (String s:placearr)
+        {
+            place+=s;
+        }
 
-                String item = ((TextView) view).getText().toString();
-                Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
-                RequestQueue queue = Volley.newRequestQueue(getBaseContext());
-                String url = "http://www.gps-coordinates.net/api/"+m.get(item);
-                JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                        (Request.Method.GET, url, (String) null, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Log.d("http", "Response: " + response.toString());
-                                try {
-                                    String latitude = response.get("latitude").toString();
-                                    String longitude = response.get("longitude").toString();
-                                    Uri gmmIntentUri = Uri.parse("google.navigation:q=" + latitude + "," + longitude + "&mode=w");
-                                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                                    mapIntent.setPackage("com.google.android.apps.maps");
-                                    startActivity(mapIntent);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        }, new Response.ErrorListener() {
-
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // TODO Auto-generated method stub
-                                Log.d("http", "error ");
-                                Toast.makeText(getApplicationContext(), "Invalid place", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                        });
-// Access the RequestQueue through your singleton class.
-                    queue.add(jsObjRequest);
-            }
-        });
-
-    }
-
-    public void showDirections(String place)
-    {
+        Log.d("place",place);
         RequestQueue queue = Volley.newRequestQueue(getBaseContext());
         String url = "http://www.gps-coordinates.net/api/"+place;
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
@@ -138,8 +94,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 // Access the RequestQueue through your singleton class.
-        queue.add(jsObjRequest);
+            queue.add(jsObjRequest);
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
